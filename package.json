@@ -1,0 +1,36 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Sachin Jadhav",
+  "devDependencies": {
+    "@babel/core": "7.13.16",
+    "@babel/plugin-proposal-class-properties": "7.13.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.13.8",
+    "@babel/preset-env": "7.13.15",
+    "@babel/preset-typescript": "7.13.0",
+    "@types/k6": "~0.35.0",
+    "@types/webpack": "5.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
+    "babel-loader": "8.2.2",
+    "clean-webpack-plugin": "4.0.0-alpha.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "eslint": "^8.6.0",
+    "typescript": "4.2.4",
+    "webpack": "5.35.1",
+    "webpack-cli": "4.6.0",
+    "webpack-glob-entries": "^1.0.1"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "build": "webpack",
+    "monitors:up": "docker-compose -f docker-compose.yaml up -d influxdb grafana",
+    "monitors:down": "docker-compose -f docker-compose.yaml down",
+    "k6:load": "k6 run --out json=reports/load-results.json src/tests/sun/sun-performance-load.test.ts",
+    "k6:soak": "k6 run --out json=reports/soak-results.json src/tests/sun/sun-performance-soak.test.ts",
+    "k6:spike": "k6 run --out json=reports/spike-results.json src/tests/sun/sun-performance-spike.test.ts",
+    "k6:stress": "k6 run --out json=reports/stress-results.json src/tests/sun/sun-performance-stress.test.ts"
+
+  }
+}
