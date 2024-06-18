@@ -27,7 +27,7 @@
     "build": "webpack",
     "monitors:up": "docker-compose -f docker-compose.yaml up -d influxdb grafana",
     "monitors:down": "docker-compose -f docker-compose.yaml down",
-    "k6:load": "k6 run --out json=reports/load-results.json src/tests/sun/sun-performance-load.test.ts",
+    "k6:load": "src/config/k6 run --out json=reports/load-results.json src/tests/sun/sun-performance-load.test.ts",
     "k6:soak": "k6 run --out json=reports/soak-results.json src/tests/sun/sun-performance-soak.test.ts",
     "k6:spike": "k6 run --out json=reports/spike-results.json src/tests/sun/sun-performance-spike.test.ts",
     "k6:stress": "k6 run --out json=reports/stress-results.json src/tests/sun/sun-performance-stress.test.ts"

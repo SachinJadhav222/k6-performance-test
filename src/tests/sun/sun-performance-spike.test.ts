@@ -5,6 +5,8 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { Rate } from 'k6/metrics';
+import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
+import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 
 /* application url */
 const launch_url = 'https://www.thesun.co.uk/fabulous/28190615/cheatham-family-multiple-children-social-media/';
@@ -12,12 +14,20 @@ const launch_url = 'https://www.thesun.co.uk/fabulous/28190615/cheatham-family-m
 /* Define performance thresholds */
 export let errorRate = new Rate('errors');
 
+/* html reports */
+export function handleSummary(data) {
+  return {
+    'reports/spike-summary.html': htmlReport(data, { debug: true }),
+    stdout: textSummary(data, { indent: ' ', enableColors: true }),
+  };
+}
+
 /* Define the options for the spike test */
 export let options = {
   stages: [
-    { duration: '1m', target: 50 }, // Ramp up to 50 users
-    { duration: '30s', target: 200 }, // Spike to 200 users
-    { duration: '1m', target: 50 }, // Ramp down to 50 users
+    { duration: '2s', target: 1 }, // Ramp up to 50 users
+    { duration: '5s', target: 2 }, // Spike to 200 users
+    { duration: '2s', target: 1 }, // Ramp down to 50 users
   ],
   thresholds: {
     http_req_duration: ['p(95)<800'], // 95% of requests should be below 800ms
